@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>LET'S SHORT YOUR URL</h1>
+    <form action="" method="post" name="input_url">
+        {{ form.url() }}
+        <button type="submit">GO!</button>
+        {% for error in form.url.errors %}
+            {{ error }}
+        {% endfor %}
+    </form>
+{% endblock %}
