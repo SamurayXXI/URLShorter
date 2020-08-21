@@ -14,7 +14,7 @@ def get_short_link(full_url: str) -> str:
     return link.short
 
 
-def get_url_hits(full_url: str) -> int:
+def get_url_hints(full_url: str) -> int:
     link = Link.query.filter_by(full=full_url).first()
     return link.counter
 
