@@ -63,3 +63,16 @@ def wrap_link_with_domain(url: str) -> str:
 
 def get_short_link_with_domain(url: str) -> str:
     return wrap_link_with_domain(get_short_link(url))
+
+
+def get_full_link_by_short(url: str) -> str:
+    link = Link.query.filter_by(short=url).first()
+    if link:
+        return link.full
+    return ""
+
+
+def increment_follow_counter(short_url: str) -> None:
+    link = Link.query.filter_by(short=short_url).first()
+    link.follow_counter += 1
+    db.session.commit()
