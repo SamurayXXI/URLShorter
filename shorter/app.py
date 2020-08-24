@@ -29,7 +29,7 @@ def index():
 def follow_url(url):
     full_url = get_full_link_by_short(url)
     if not full_url:
-        abort(404)
+        return abort(404)
 
     increment_follow_counter(url)
     return redirect(full_url)
