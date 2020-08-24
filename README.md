@@ -1,5 +1,5 @@
 # URLShorter
-Writedown your long link to the form. You'll get a short link like *domain.com/UrL*
+Enter your long link to the form. You'll get a short link like *domain.com/UrL*
 
 ## Enviroment variable
 Set enviroment variable DB_CONNECTION for connection to your database.  
