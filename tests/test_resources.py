@@ -1,6 +1,6 @@
 from shorter.models import Link
-from shorter.services import get_short_link, set_follow_counter
-from .common_fixtures import app
+from shorter.services import get_short_link, set_follow_counter, get_url_follows
+from .common_fixtures import app, create_link
 
 
 def test_create_short_url(app):
@@ -28,3 +28,13 @@ def test_root_follows(app):
         set_follow_counter(full_url, 2)
     rv = app_client.post('/', data={"url": full_url})
     assert "Follows: 2" in str(rv.data)
+
+
+def test_increment_follows(app):
+    app_client = app.test_client()
+    full_url = "https://yandex.ru/"
+    with app.app_context():
+        create_link(full_url)
+        app_client.get('/Qwe')
+        app_client.get('/Qwe')
+        assert get_url_follows(full_url) == 2
