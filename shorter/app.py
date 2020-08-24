@@ -13,7 +13,8 @@ def index():
         full_url = form.url.data
         if check_exists_url(full_url):
             return render_template('index.html', form=form,
-                                   short_url=get_short_link_with_domain(full_url),
+                                   short_url=get_short_link_with_domain(
+                                       full_url),
                                    follows=get_url_follows(full_url))
 
         new_url = create_new_url()
@@ -32,4 +33,3 @@ def follow_url(url):
 
     increment_follow_counter(url)
     return redirect(full_url)
-

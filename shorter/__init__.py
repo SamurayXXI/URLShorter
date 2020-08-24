@@ -19,4 +19,3 @@ def init_app(application, config=None):
         db.create_all()
 
     return application
-

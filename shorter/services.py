@@ -49,7 +49,8 @@ def increment_url_size() -> None:
         size.value += 1
         db.session.commit()
     else:
-        current_link_setting = Settings(name="current_link_size", value=get_link_size()+1)
+        current_link_setting = Settings(
+            name="current_link_size", value=get_link_size()+1)
         db.session.add(current_link_setting)
         db.session.commit()
 

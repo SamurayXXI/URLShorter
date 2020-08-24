@@ -79,7 +79,3 @@ def test_increment_follows(app):
         set_follow_counter(full_url, 10)
         increment_follow_counter("Qwe")
         assert get_url_follows(full_url) == 11
-
-
-
-
