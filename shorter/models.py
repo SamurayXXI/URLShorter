@@ -8,5 +8,6 @@ class Link(db.Model):
 
 
 class Settings(db.Model):
+    """Contains a current url size"""
     name = db.Column(db.String(12), primary_key=True)
     value = db.Column(db.Integer)
