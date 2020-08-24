@@ -56,9 +56,8 @@ def increment_url_size() -> None:
 
 
 def wrap_link_with_domain(url: str) -> str:
-    domain = app.config.get("DOMAIN_NAME", "localhost")
-    port = app.config.get("DOMAIN_PORT", 5000)
-    link = f"http://{domain}:{port}/{url}"
+    domain = app.config.get("DOMAIN_NAME", "localhost:5000")
+    link = f"http://{domain}/{url}"
     return link
 
 
