@@ -1,19 +1,22 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1>LET'S SHORT YOUR URL</h1>
-    <form action="" method="post" name="input_url">
-        {{ form.url() }}
-        <button type="submit">SEND</button>
-        <p style="color: red">
-            {% for error in form.url.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-    </form>
-    {% if short_url %}
-        <h3>Your short URL: <a href="{{ short_url }}">{{ short_url }}</a></h3>
-    {% endif %}
-    {% if follows %}
-        <h3>Follows: {{ follows }}</h3>
-    {% endif %}
+    <div class="text-center">
+        <h1>LET'S SHORT YOUR URL</h1>
+        <form action="" method="post" name="input_url">
+            {{ form.url() }}
+            <button type="submit">SEND</button>
+            <p style="color: red">
+                {% for error in form.url.errors %}
+                    {{ error }}
+                {% endfor %}
+            </p>
+        </form>
+        {% if short_url %}
+            <br>
+            <h3>Your short URL: <a href="{{ short_url }}">{{ short_url }}</a></h3>
+        {% endif %}
+        {% if follows %}
+            <h3>Follows: {{ follows }}</h3>
+        {% endif %}
+    </div>
 {% endblock %}
