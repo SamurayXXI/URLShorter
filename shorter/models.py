@@ -4,7 +4,7 @@ from shorter import db
 class Link(db.Model):
     short = db.Column(db.String(24), primary_key=True)
     full = db.Column(db.Text, nullable=False, unique=True)
-    counter = db.Column(db.Integer)
+    follow_counter = db.Column(db.Integer)
 
 
 class Settings(db.Model):

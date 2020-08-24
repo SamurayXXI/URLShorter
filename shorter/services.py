@@ -14,9 +14,15 @@ def get_short_link(full_url: str) -> str:
     return link.short
 
 
-def get_url_hints(full_url: str) -> int:
+def get_url_follows(full_url: str) -> int:
     link = Link.query.filter_by(full=full_url).first()
-    return link.counter
+    return link.follow_counter
+
+
+def set_follow_counter(full_url: str, count: int) -> None:
+    link = Link.query.filter_by(full=full_url).first()
+    link.follow_counter = count
+    db.session.commit()
 
 
 def create_new_url() -> str:
@@ -25,18 +31,9 @@ def create_new_url() -> str:
 
 
 def save_new_url(full_url: str, new_url: str) -> None:
-    link = Link(short=new_url, full=full_url, counter=0)
+    link = Link(short=new_url, full=full_url, follow_counter=0)
     db.session.add(link)
     db.session.commit()
-
-
-def short_url(full_url: str) -> str:
-    if check_exists_url(full_url):
-        return get_short_link(full_url)
-
-    new_url = create_new_url()
-    save_new_url(full_url, new_url)
-    return new_url
 
 
 def get_link_size() -> int:
@@ -55,3 +52,14 @@ def increment_url_size() -> None:
         current_link_setting = Settings(name="current_link_size", value=get_link_size()+1)
         db.session.add(current_link_setting)
         db.session.commit()
+
+
+def wrap_link_with_domain(url: str) -> str:
+    domain = app.config.get("DOMAIN_NAME", "localhost")
+    port = app.config.get("DOMAIN_PORT", 5000)
+    link = f"http://{domain}:{port}/{url}"
+    return link
+
+
+def get_short_link_with_domain(url: str) -> str:
+    return wrap_link_with_domain(get_short_link(url))
