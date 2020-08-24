@@ -5,10 +5,11 @@ from pytest import raises
 
 from shorter import db, url_maker
 from shorter.models import Link
-from shorter.services import check_exists_url, get_url_hits, short_url
+from shorter.services import check_exists_url, get_url_follows
+from .common_fixtures import app
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def app():
     from shorter.app import app
     from shorter import init_app
@@ -16,7 +17,7 @@ def app():
     return application
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def all_links_size_1():
     from shorter.app import app
     from shorter import init_app
@@ -24,7 +25,7 @@ def all_links_size_1():
     with application.app_context():
         application.config["MIN_LINK_SIZE"] = 1
         for char in string.ascii_letters + string.digits:
-            link = Link(short=char, full=f"Qwe{char}", counter=1)
+            link = Link(short=char, full=f"Qwe{char}", follow_counter=1)
             db.session.add(link)
         db.session.commit()
 
@@ -32,7 +33,7 @@ def all_links_size_1():
 
 
 def create_link(full_url, counter=1):
-    new_link = Link(short="Qwe", full=full_url, counter=counter)
+    new_link = Link(short="Qwe", full=full_url, follow_counter=counter)
     db.session.add(new_link)
     db.session.commit()
 
@@ -64,10 +65,10 @@ def test_get_url_hints(app):
         full_url = "https://yandex.ru/"
         assert check_links_is_empty()
         with raises(AttributeError):
-            get_url_hits(full_url)
+            get_url_follows(full_url)
         create_link(full_url, 21)
         link = Link.query.filter_by(short="Qwe").first()
-        assert link.counter == 21
+        assert link.follow_counter == 21
 
 
 def test_create_link(all_links_size_1):
@@ -76,14 +77,4 @@ def test_create_link(all_links_size_1):
         assert len(url) > 1
 
 
-def test_create_short_url(app):
-    with app.app_context():
-        yandex_url = "https://yandex.ru/"
-        google_url = "https://www.google.com/"
-        short_yandex_1 = short_url(yandex_url)
-        short_yandex_2 = short_url(yandex_url)
-        short_google_1 = short_url(google_url)
-        short_google_2 = short_url(google_url)
-        assert short_yandex_1 == short_yandex_2
-        assert short_google_1 == short_google_2
-        assert short_yandex_1 != short_google_1
+
