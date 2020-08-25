@@ -7,6 +7,7 @@ from shorter.services import increment_url_size, get_link_size
 
 
 def __create_link(size: int) -> str:
+    """Create a random link with length 'size' """
     link = []
     for i in range(size):
         link.append(choice(string.ascii_letters + string.digits))
@@ -14,6 +15,7 @@ def __create_link(size: int) -> str:
 
 
 def check_link_exists(short_url: str) -> bool:
+    """Check short URL exists in database"""
     queryset = Link.query.filter_by(short=short_url).first()
     if queryset:
         return True
@@ -21,6 +23,7 @@ def check_link_exists(short_url: str) -> bool:
 
 
 def create():
+    """Create guaranteed new link not exists in database"""
     size = get_link_size()
     new_link = __create_link(size)
     tries = 0

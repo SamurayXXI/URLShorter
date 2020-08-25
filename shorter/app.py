@@ -1,8 +1,8 @@
 from flask import render_template, abort, redirect
 
-from shorter import app
+from shorter import app, url_maker
 from shorter.forms import URLForm
-from shorter.services import check_exists_url, get_url_follows, create_new_url, get_short_link_with_domain, \
+from shorter.services import check_exists_url, get_url_follows, get_short_link_with_domain, \
     wrap_link_with_domain, save_new_url, get_full_link_by_short, increment_follow_counter
 
 
@@ -17,7 +17,7 @@ def index():
                                        full_url),
                                    follows=get_url_follows(full_url))
 
-        new_url = create_new_url()
+        new_url = url_maker.create()
         save_new_url(full_url, new_url)
         return render_template('index.html', form=form,
                                short_url=wrap_link_with_domain(new_url))
