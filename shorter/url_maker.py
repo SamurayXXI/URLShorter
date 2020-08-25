@@ -22,7 +22,7 @@ def check_link_exists(short_url: str) -> bool:
     return False
 
 
-def create():
+def create() -> str:
     """Create guaranteed new link not exists in database"""
     size = get_link_size()
     new_link = __create_link(size)
